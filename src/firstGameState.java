@@ -37,26 +37,38 @@ public class firstGameState {
     }
 
     private void gsFirstGetOutOfBed(){
+
+        //Actual Game State
+        //Getting userBanner() Method from textFormatting.java
         textFormatting.userBanner();
+        //JEW SCANNER
         Scanner nameScanner = new Scanner(System.in);
         util.printOut("You wake up in your house, in your bed.");
+        //If the player has taken the mick, and put it in a few wrong times as shon on line 66, it'll take the piss back.
         int numberofTimesWrong = 0;
+        //UNtil they get out of the bed and move on, it'll keep repeating this bit.
         while (true) {
+            //Choice for the user to do, to see what it manages.
             String choice = nameScanner.nextLine();
             if (choice.contentEquals("get out") || (choice.contentEquals("get up"))) {
                 util.printOut("You get up out of bed.");
+                //Goes to second game state in this class which is gsFirstMoveAroundRoom,
+                //Then passes the scanner to it so it doesnt make a new instance.
                 gsFirstMoveAroundRoom(nameScanner);
             } else if (choice.contentEquals("turn over")) {
                 util.printOut("You turn over in your bed.");
                 util.printOut("Wow you're tired better go back to sle-");
+                //Restarts method cause they're an idiot
                 gsFirstGetOutOfBed();
                 break;
             } else if ((choice.contentEquals("go back to sleep")) || (choice.contentEquals("sleep"))) {
                 util.printOut("Wow you're tired better go back to sle-");
+                //Restarts method cause they're an idiot
                 gsFirstGetOutOfBed();
                 break;
             } else {
                 numberofTimesWrong++;
+                //Taking the mick thing.
                 if (numberofTimesWrong >= 5){
                     tooktheMick = true;
                 util.printOut("Seriously?\n You're in bed, what else can you do?\n Other than get out of bed or go back to sleep.");
