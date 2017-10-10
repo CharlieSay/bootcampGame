@@ -42,11 +42,8 @@ public class firstGameState {
 
         //Actual Game State
         //Getting userBanner() Method from textFormatting.java
-<<<<<<< HEAD:src/gameStates/firstGameState.java
         utilities.textFormatting.userBanner();
-=======
         textFormatting.userBanner();
->>>>>>> 9a4f41d140c2f7b91862264a425c10ba64fcfe6f:src/firstGameState.java
         //JEW SCANNER
         Scanner nameScanner = new Scanner(System.in);
         util.printOut("You wake up in your house, in your bed.");
@@ -81,7 +78,7 @@ public class firstGameState {
                 }else if(numberofTimesWrong >= 10){
                     util.printOut("Are you okay? GET OUT OF THE BED OR GO BACK TO SLEEP.");
                 }else if(numberofTimesWrong >= 15){
-                    util.printOut("No, there is something wrong. Were gonna go head and stop the game.");
+                    util.printOut("No, there is something wrong. Were gonna go bed and stop the game.");
                     System.exit(1);
                 }
             }

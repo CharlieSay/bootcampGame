@@ -12,8 +12,10 @@ import java.util.Scanner;
 public class battle {
 
     private int userHealth;
-    private int fighterHealth;
-    private int chance = 0;
+    public int fighterHealth;
+    public String fighterName;
+    public double chance = 0;
+    public int missCounter = 0;
     public characterData character = new characterData();
 
 
@@ -22,37 +24,37 @@ public class battle {
         b.battleSetUp(fighterName,fighterHealthPassed,scan);
     }
 
-    public void battleSetUp(String fighterName, int fighterHealthPassed, Scanner scan){
+    public void battleSetUp(String fighterNamePassed, int fighterHealthPassed, Scanner scan){
+        this.fighterHealth=fighterHealthPassed;
+        this.fighterName = fighterNamePassed;
         if (character.swordLevelReturn() == 1) {
-            chance = 20;
+            chance = 0.8;
         }else if (character.swordLevelReturn() == 2){
-            chance = 40;
+            chance = 0.6;
         }else if (character.swordLevelReturn() == 3){
-            chance = 60;
+            chance = 0.4;
         }else if (character.swordLevelReturn() == 4){
-            chance = 80;
+            chance = 0.2;
         }else if (character.swordLevelReturn() == 5){
-            chance = 100;
+            chance = 0.001;
         }else{
             System.out.println("Something went wrong, and by magic your sword is super magic.");
-            chance = 100;
+            chance = 0.001;
             character.setSwordLevel(5);
         }
         util.printOut("BATTLE COMMENCE");
-        userHealth = 100;
-        fighterHealth = 20;
-        battleBanner(fighterName);
+        battleBanner();
         userHealth = 100;
         util.printOut("As you are " + character.lordandNameReturn() +" you get to go first.");
-        battleMechanism("Goblin",scan);
+        battleMechanism(scan);
     }
 
-    public void battleMechanism(String fightername, Scanner scan){
-        util.printOut("Do you want to \nHit, Run or Heal?");
-        String hrhInput = scan.nextLine().toLowerCase();
+    public void battleMechanism(Scanner scan){
+        util.printOut("Do you want to : \nHit, Run or Heal?");
+        //String hrhInput = scan.nextLine().toLowerCase();
+        String hrhInput = "hit";
         if (hrhInput.contains("hit")){
-            util.printOut("You Hit " + fightername);
-            userAttack(fightername);
+            userAttack();
         }else if (hrhInput.contains("run")){
             util.printOut("You ran sucessfully");
         }else if (hrhInput.contains("heal")){
@@ -62,15 +64,43 @@ public class battle {
         }
     }
 
-    public boolean doesHit(){
-        return true;
+    public boolean doesHit() {
+        double d = Math.random();
+        if (missCounter == 2){
+            util.printOut("you missed alot, so you swung in agony and hit.");
+            missCounter=0;
+            return true;
+        }else if (chance == d){
+            //Equal
+            return true;
+        }else if (chance < d){
+            //Hit
+            return true;
+        }else if (chance > d){
+            //Miss
+            missCounter++;
+            return false;
+        }else{
+            util.printOut("Something went wrong");
+            doesHit();
+        }
+        missCounter++;
+        return false;
     }
 
-    private void userAttack(String fightername){
+    public void userAttack(){
         int hitPower = character.swordLevelReturn()*10;
-        if (hitPower > fighterHealth){
-            System.out.println(fightername);
-        }else
+        if (doesHit()==true){
+           if (hitPower < fighterHealth){
+                util.printOut("YOU HIT "+fighterName);
+               fighterHealth -= hitPower;
+                util.printOut("They have" + fighterHealth + " left");
+            }else if (hitPower > fighterHealth){
+               util.printOut(fighterName + " fainted \n You win this BATTLE!");
+           }
+        }else{
+            util.printOut("You missed!");
+        }
     }
 
     private void fighterAttack(){
@@ -79,7 +109,7 @@ public class battle {
 
 
 
-    private void battleBanner(String fighterName){
+    private void battleBanner(){
         textFormatting t = new textFormatting();
         characterData c = new characterData();
         t.equalLine();
